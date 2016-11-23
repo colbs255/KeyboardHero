@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Keyboard Recorder</title>
+</head>
+<body>
+<h1 id="title">Keyboard Recorder</h1>
+<p id="timer">123</p>
+<p id="key">KeyCode</p>
+<button id="starter" onclick="startRecording()">Start Recording</button>
+<button id="ender" onclick="endRecording()">End Recording</button>
+<p id="list">List</p>
+
+
+<script type="text/javascript">
+var myKeyCodes = [];
+var myTimes = [];
+var keyCount = 0;
+var startTime = 1;
+var ellapsedTime = 1;
+var timer = document.getElementById("timer");
+var key = document.getElementById("key");
+var list = document.getElementById("list");
+var endnow = true;
+
+var myTimer = setInterval(timerFunction, 25);
+
+function startRecording() {
+	document.addEventListener("keypress", keyPressHandler, false);
+	var d = new Date();
+	startTime = d.getTime();
+	endnow = false;
+}
+
+
+function timerFunction() {
+	var dt = new Date();
+    ellapsedTime = (dt.getTime() - startTime)/1000;
+    if (endnow == false) {
+    	title.innerHTML =  ellapsedTime;
+    }
+}
+
+
+function keyPressHandler(e) {
+	keyCount++;
+	myKeyCodes.push(e.keyCode);
+	myTimes.push(ellapsedTime);
+	key.innerHTML = myKeyCodes[keyCount-1];
+	timer.innerHTML = myTimes[keyCount-1];
+}
+
+
+
+function endRecording() {
+	document.removeEventListener("keypress", keyPressHandler, false);
+	clearInterval(myTimer);
+	document.getElementById("title").innerHTML = "Recording has stopped";
+
+    var x = document.createElement("P");
+    var t = document.createTextNode(myKeyCodes);
+    x.appendChild(t);
+    document.body.appendChild(x);
+    
+    var z = document.createElement("P");
+    var g = document.createTextNode(myTimes);
+    z.appendChild(g);
+    document.body.appendChild(z);
+    
+}
+
+
+</script>
+</body>
+</html>
